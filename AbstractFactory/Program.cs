@@ -31,6 +31,15 @@ namespace AbstractFactory
             Console.WriteLine("Toyota");
         }
     }
+    
+    //ConcreteProductA3
+    public class Mercedes : Car
+    {
+        public override void Info()
+        {
+            Console.WriteLine("Mercedes");
+        }
+    }
 
     // AbstractProductB
     public abstract class Engine
@@ -55,6 +64,15 @@ namespace AbstractFactory
         public override void GetPower()
         {
             Console.WriteLine("Toyota Engine");
+        }
+    }
+    
+    //ConcreteProductB2
+    public class MercedesEngine : Engine
+    {
+        public override void GetPower()
+        {
+            Console.WriteLine("Mercedes Engine");
         }
     }
 
@@ -95,6 +113,20 @@ namespace AbstractFactory
         }
     }
 
+    public class MercedesFactory : ICarFactory
+    {
+        // form CarFactory
+        Car ICarFactory.CreateCar()
+        {
+            return new Mercedes();
+        }
+
+        Engine ICarFactory.CreateEngine()
+        {
+            return new MercedesEngine();
+        }
+    }
+
     public class ClientFactory
     {
         private Car car;
@@ -109,7 +141,6 @@ namespace AbstractFactory
 
         public void Run()
         {
-            car.GetType();
             //Абстрагування варіантів використання
             car.Interact(engine);
         }
@@ -121,12 +152,15 @@ namespace AbstractFactory
         {
             ICarFactory carFactory = new ToyotaFactory();
             ClientFactory client1 = new ClientFactory(carFactory);
-
             client1.Run();
 
             carFactory = new FordFactory();
             ClientFactory client2 = new ClientFactory(carFactory);
             client2.Run();
+            
+            carFactory = new MercedesFactory();
+            ClientFactory client3 = new ClientFactory(carFactory);
+            client3.Run();
 
             Console.ReadKey();
         }

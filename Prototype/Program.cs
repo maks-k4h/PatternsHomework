@@ -10,42 +10,65 @@ namespace Prototype
     {
         static void Main(string[] args)
         {
-            Prototype prototype = new ConcretePrototype1(1);
-            Prototype clone = prototype.Clone();
-            prototype = new ConcretePrototype2(2);
-            clone = prototype.Clone();
+            WatchesPrototype watches1 = new OrientWatches("classic", WatchesPrototype.MVType.Mechanical);
+            WatchesPrototype prototype = watches1.Clone();
+            WatchesPrototype watches2 =
+                new JamesBondWatches("Omega Seamaster", WatchesPrototype.MVType.Mechanical, true);
+            prototype = watches2.Clone();
         }
     }
-    abstract class Prototype
+    abstract class WatchesPrototype
     {
-        public int Id { get; private set; }
-        public Prototype(int id)
+        public enum MVType
         {
-            this.Id = id;
+            Mechanical,
+            Digital,
         }
-        public abstract Prototype Clone();
+
+        public MVType MovementType;
+        public string Country;
+        public WatchesPrototype(string country, MVType movementType)
+        {
+            Country = country;
+            MovementType = movementType;
+        }
+        public abstract WatchesPrototype Clone();
     }
 
-    class ConcretePrototype1 : Prototype
+    class OrientWatches : WatchesPrototype
     {
-        public ConcretePrototype1(int id)
-        : base(id)
-        { }
-        public override Prototype Clone()
+        public string Collection;
+
+        public OrientWatches(string collection, MVType movementType)
+            : base("Japan", movementType)
         {
-            return new ConcretePrototype1(Id);
+            Collection = collection;
+        }
+        public override WatchesPrototype Clone()
+        {
+            return new OrientWatches(Collection, MovementType);
         }
     }
-
-    class ConcretePrototype2 : Prototype
+    
+    class JamesBondWatches : WatchesPrototype
     {
-        public ConcretePrototype2(int id)
-        : base(id)
-        { }
-        public override Prototype Clone()
+        public string Title { get; }
+        public bool Destroyed;
+
+        public JamesBondWatches(string title, MVType movementType, bool destroyed = false)
+            : base("Japan", movementType)
         {
-            return new ConcretePrototype2(Id);
+            Title = title;
+            Destroyed = destroyed;
+        }
+
+        void Boom()
+        {
+            Destroyed = true;
+        }
+        public override WatchesPrototype Clone()
+        {
+            return new JamesBondWatches(Title, MovementType, Destroyed);
         }
     }
-
 }

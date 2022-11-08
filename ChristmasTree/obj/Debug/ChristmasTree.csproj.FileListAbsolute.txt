@@ -1,0 +1,6 @@
+/Users/makskonevych/Documents/C#/PatternsHomework/ChristmasTree/bin/Debug/ChristmasTree.exe
+/Users/makskonevych/Documents/C#/PatternsHomework/ChristmasTree/bin/Debug/ChristmasTree.pdb
+/Users/makskonevych/Documents/C#/PatternsHomework/ChristmasTree/obj/Debug/ChristmasTree.csproj.AssemblyReference.cache
+/Users/makskonevych/Documents/C#/PatternsHomework/ChristmasTree/obj/Debug/ChristmasTree.csproj.CoreCompileInputs.cache
+/Users/makskonevych/Documents/C#/PatternsHomework/ChristmasTree/obj/Debug/ChristmasTree.exe
+/Users/makskonevych/Documents/C#/PatternsHomework/ChristmasTree/obj/Debug/ChristmasTree.pdb

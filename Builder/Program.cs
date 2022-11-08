@@ -49,6 +49,13 @@ namespace Builder
             public override void BuildSauce() { pizza.SetSauce("hot"); }
             public override void BuildTopping() { pizza.SetTopping("pepparoni+salami"); }
         }
+        //Concrete Builder
+        class MargheritaPizzaBuilder : PizzaBuilder
+        {
+            public override void BuildDough() { pizza.SetDough("stretched"); }
+            public override void BuildSauce() { pizza.SetSauce("sweet"); }
+            public override void BuildTopping() { pizza.SetTopping("tomato+mozzarella+basil"); }
+        }
         /** "Director" */
         class Waiter
         {
@@ -71,12 +78,25 @@ namespace Builder
                 Waiter waiter = new Waiter();
                 PizzaBuilder hawaiianPizzaBuilder = new HawaiianPizzaBuilder();
                 PizzaBuilder spicyPizzaBuilder = new SpicyPizzaBuilder();
+                PizzaBuilder margheritaPizzaBuilder = new MargheritaPizzaBuilder();
 
                 waiter.SetPizzaBuilder(hawaiianPizzaBuilder);
                 waiter.ConstructPizza();
-
-                Pizza pizza = waiter.GetPizza();
-                pizza.Info();
+                Console.WriteLine("\nHawaiian Pizza");
+                Pizza hawaiianPizza = waiter.GetPizza();
+                hawaiianPizza.Info();
+                
+                waiter.SetPizzaBuilder(spicyPizzaBuilder);
+                waiter.ConstructPizza();
+                Console.WriteLine("\nSpicy Pizza");
+                Pizza spicyPizza = waiter.GetPizza();
+                spicyPizza.Info();
+                
+                waiter.SetPizzaBuilder(margheritaPizzaBuilder);
+                waiter.ConstructPizza();
+                Console.WriteLine("\nMargherita Pizza");
+                Pizza margheritaPizza = waiter.GetPizza();
+                margheritaPizza.Info();
 
                 Console.ReadKey();
             }
