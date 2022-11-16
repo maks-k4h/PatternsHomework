@@ -13,13 +13,15 @@ namespace Builder
             string dough;
             string sauce;
             string topping;
+            string boxing;
             public Pizza() { }
             public void SetDough(string d) { dough = d; }
             public void SetSauce(string s) { sauce = s; }
             public void SetTopping(string t) { topping = t; }
+            public void SetBoxing(string b) { boxing = b; }
             public void Info()
             {
-                Console.WriteLine("Dough: {0}\nSause: {1}\nTopping: {2}", dough, sauce, topping);
+                Console.WriteLine("Dough: {0}\nSause: {1}\nTopping: {2}\nBoxing: {3}", dough, sauce, topping, boxing);
             }
         }
 
@@ -34,6 +36,7 @@ namespace Builder
             public abstract void BuildDough();
             public abstract void BuildSauce();
             public abstract void BuildTopping();
+            public abstract void BuildBoxing();
         }
         //Concrete Builder
         class HawaiianPizzaBuilder : PizzaBuilder
@@ -41,6 +44,7 @@ namespace Builder
             public override void BuildDough() { pizza.SetDough("cross"); }
             public override void BuildSauce() { pizza.SetSauce("mild"); }
             public override void BuildTopping() { pizza.SetTopping("ham+pineapple"); }
+            public override void BuildBoxing() { pizza.SetBoxing("standard"); }
         }
         //Concrete Builder
         class SpicyPizzaBuilder : PizzaBuilder
@@ -48,6 +52,7 @@ namespace Builder
             public override void BuildDough() { pizza.SetDough("pan baked"); }
             public override void BuildSauce() { pizza.SetSauce("hot"); }
             public override void BuildTopping() { pizza.SetTopping("pepparoni+salami"); }
+            public override void BuildBoxing() { pizza.SetBoxing("standard"); }
         }
         //Concrete Builder
         class MargheritaPizzaBuilder : PizzaBuilder
@@ -55,6 +60,7 @@ namespace Builder
             public override void BuildDough() { pizza.SetDough("stretched"); }
             public override void BuildSauce() { pizza.SetSauce("sweet"); }
             public override void BuildTopping() { pizza.SetTopping("tomato+mozzarella+basil"); }
+            public override void BuildBoxing() { pizza.SetBoxing("premium"); }
         }
         /** "Director" */
         class Waiter
@@ -68,6 +74,7 @@ namespace Builder
                 pizzaBuilder.BuildDough();
                 pizzaBuilder.BuildSauce();
                 pizzaBuilder.BuildTopping();
+                pizzaBuilder.BuildBoxing();
             }
         }
         /** A customer ordering a pizza. */

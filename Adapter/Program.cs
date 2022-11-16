@@ -1,7 +1,7 @@
 ﻿using System;
 namespace AdapterExample
 {
-    // Система яку будемо адаптовувати
+    // Система, яку адаптуватимемо
     class OldElectricitySystem
     {
         public string MatchThinSocket()
@@ -9,6 +9,17 @@ namespace AdapterExample
             return "old system";
         }
     }
+
+    // Система, яку намагатимемся адаптувати...
+    class DangerousElectricitySystem
+    {
+        public string MatchUnreliableSocket()
+        {
+            // працює fifty-fifty
+            return DateTime.Now.Second % 2 == 0 ? "unreliable (yet still working) system" : "BOOM!!!";
+        }
+    }
+    
     // Широковикористовуваний інтерфейс нової системи (специфікація до квартири)
     interface INewElectricitySystem
     {
@@ -23,13 +34,14 @@ namespace AdapterExample
             return "new interface";
         }
     }
+    
     // Адаптер назовні виглядає як нові євророзетки, шляхом наслідування прийнятного у 
     // системі інтерфейсу
-    class Adapter : INewElectricitySystem
+    class OldSystemAdapter : INewElectricitySystem
     {
         // Але всередині він старий
         private readonly OldElectricitySystem _adaptee;
-        public Adapter(OldElectricitySystem adaptee)
+        public OldSystemAdapter(OldElectricitySystem adaptee)
         {
             _adaptee = adaptee;
         }
@@ -41,6 +53,20 @@ namespace AdapterExample
             // Якщо б була різниця 
             // то тут ми б помістили трансформатор
             return _adaptee.MatchThinSocket();
+        }
+    }
+    
+    class DangerousSystemAdapter : INewElectricitySystem
+    {
+        private readonly DangerousElectricitySystem _adaptee;
+        public DangerousSystemAdapter(DangerousElectricitySystem adaptee)
+        {
+            _adaptee = adaptee;
+        }
+
+        public string MatchWideSocket()
+        {
+            return _adaptee.MatchUnreliableSocket();
         }
     }
 
@@ -60,10 +86,15 @@ namespace AdapterExample
             // 1) Ми можемо користуватися новою системою без проблем
             var newElectricitySystem = new NewElectricitySystem();
             ElectricityConsumer.ChargeNotebook(newElectricitySystem);
-            // 2) Ми повинні адаптуватися до старої системи, використовуючи адаптер
+            // 2) Адаптуємося до старої системи, використовуючи адаптер
             var oldElectricitySystem = new OldElectricitySystem();
-            var adapter = new Adapter(oldElectricitySystem);
-            ElectricityConsumer.ChargeNotebook(adapter);            
+            var adapter1 = new OldSystemAdapter(oldElectricitySystem);
+            ElectricityConsumer.ChargeNotebook(adapter1); 
+            // 2) Адаптуємося до ненадійної системи, використовуючи адаптер
+            var dangerousElectricitySystem = new DangerousElectricitySystem();
+            var adapter2 = new DangerousSystemAdapter(dangerousElectricitySystem);
+            ElectricityConsumer.ChargeNotebook(adapter2); 
+            
             Console.ReadKey();
         }
     }

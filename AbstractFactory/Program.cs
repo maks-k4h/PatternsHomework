@@ -6,11 +6,14 @@ namespace AbstractFactory
     public abstract class Car
     {
         public abstract void Info();
-        public void Interact(Engine engine)
+        public void Interact(Engine engine, Transmission transmission)
         {
             Info();
-            Console.WriteLine("Set Engine: ");
+            Console.Write("Engine: ");
             engine.GetPower();
+            Console.Write("Transmission: ");
+            transmission.SetGear();
+            
         }
     }
 
@@ -23,7 +26,7 @@ namespace AbstractFactory
         }
     }
 
-    //ConcreteProductA2
+    // ConcreteProductA2
     public class Toyota : Car
     {
         public override void Info()
@@ -32,7 +35,7 @@ namespace AbstractFactory
         }
     }
     
-    //ConcreteProductA3
+    // ConcreteProductA3
     public class Mercedes : Car
     {
         public override void Info()
@@ -58,7 +61,7 @@ namespace AbstractFactory
         }
     }
 
-    //ConcreteProductB2
+    // ConcreteProductB2
     public class ToyotaEngine : Engine
     {
         public override void GetPower()
@@ -67,12 +70,47 @@ namespace AbstractFactory
         }
     }
     
-    //ConcreteProductB2
+    // ConcreteProductB3
     public class MercedesEngine : Engine
     {
         public override void GetPower()
         {
             Console.WriteLine("Mercedes Engine");
+        }
+    }
+    
+    // AbstractProductC
+    public abstract class Transmission
+    {
+        public virtual void SetGear()
+        {
+        }
+    }
+
+    // ConcreteProductС1
+    public class FordTransmission : Transmission
+    {
+        public override void SetGear()
+        {
+            Console.WriteLine("Ford C6 Transmission");
+        }
+    }
+
+    //ConcreteProductС2
+    public class ToyotaTransmission : Transmission
+    {
+        public override void SetGear()
+        {
+            Console.WriteLine("Toyota RA-series Transmission");
+        }
+    }
+    
+    //ConcreteProductС3
+    public class MercedesTransmission : Transmission
+    {
+        public override void SetGear()
+        {
+            Console.WriteLine("Mercedes-Benz 7G-Tronic Transmission");
         }
     }
 
@@ -81,6 +119,7 @@ namespace AbstractFactory
     {
         Car CreateCar();
         Engine CreateEngine();
+        Transmission CreateTransmission();
     }
 
     // ConcreteFactory1
@@ -95,6 +134,11 @@ namespace AbstractFactory
         Engine ICarFactory.CreateEngine()
         {
             return new FordEngine();
+        }
+
+        public Transmission CreateTransmission()
+        {
+            return new FordTransmission();
         }
     }
 
@@ -111,8 +155,14 @@ namespace AbstractFactory
         {
             return new ToyotaEngine();
         }
+
+        public Transmission CreateTransmission()
+        {
+            return new ToyotaTransmission();
+        }
     }
 
+    // ConcreteFactory3
     public class MercedesFactory : ICarFactory
     {
         // form CarFactory
@@ -125,24 +175,32 @@ namespace AbstractFactory
         {
             return new MercedesEngine();
         }
+
+        public Transmission CreateTransmission()
+        {
+            return new MercedesTransmission();
+        }
     }
 
     public class ClientFactory
     {
         private Car car;
         private Engine engine;
+        private Transmission transmission;
 
         public ClientFactory(ICarFactory factory)
         {
             //Абстрагування процесів інстанціювання
             car = factory.CreateCar();
             engine = factory.CreateEngine();
+            transmission = factory.CreateTransmission();
         }
 
         public void Run()
         {
+            Console.WriteLine();
             //Абстрагування варіантів використання
-            car.Interact(engine);
+            car.Interact(engine, transmission);
         }
     }
 
